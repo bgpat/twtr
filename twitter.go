@@ -25,6 +25,7 @@ func NewClient(consumer, token *oauth.Credentials) *Client {
 			TemporaryCredentialRequestURI: "https://api.twitter.com/oauth/request_token",
 			ResourceOwnerAuthorizationURI: "https://api.twitter.com/oauth/authorize",
 			TokenRequestURI:               "https://api.twitter.com/oauth/access_token",
+			Credentials:                   *consumer,
 		},
 		ConsumerToken: consumer,
 		AccessToken:   token,
@@ -41,8 +42,6 @@ func Decode(resp *http.Response, data interface{}) error {
 }
 
 func (c *Client) RequestTokenURL(callback string) (string, error) {
-	c.OAuthClient.Credentials.Token = c.ConsumerToken.Token
-	c.OAuthClient.Credentials.Secret = c.ConsumerToken.Secret
 	credential, err := c.OAuthClient.RequestTemporaryCredentials(nil, callback, nil)
 	if err != nil {
 		return "", err
