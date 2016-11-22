@@ -13,7 +13,7 @@ type List struct {
 	IDStr           string `json:"id_str,omitempty"`
 	MemberCount     int    `json:"member_count,omitempty"`
 	Mode            string `json:"mode,omitempty"`
-	ID              uint64 `json:"id,omitempty"`
+	ID              int64  `json:"id,omitempty"`
 	FullName        string `json:"full_name,omitempty"`
 	Description     string `json:"description,omitempty"`
 	User            User   `json:"user,omitempty"`

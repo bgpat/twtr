@@ -19,7 +19,7 @@ type User struct {
 	ProfileImageURLHttps           string `json:"profile_image_url_https,omitempty"`
 	UTCOffset                      int    `json:"utc_offset,omitempty"`
 	ProfileBannerURL               string `json:"profile_banner_url,omitempty"`
-	ID                             uint64 `json:"id,omitempty"`
+	ID                             int64  `json:"id,omitempty"`
 	ProfileUseBackgroundImage      bool   `json:"profile_use_background_image,omitempty"`
 	ListedCount                    int    `json:"listed_count,omitempty"`
 	ProfileTextColor               string `json:"profile_text_color,omitempty"`
