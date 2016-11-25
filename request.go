@@ -35,3 +35,12 @@ func (c *Client) GET(path string, params url.Values, data interface{}) error {
 	}
 	return Decode(resp, data)
 }
+
+func (c *Client) POST(path string, params url.Values, data interface{}) error {
+	uri := c.ParseURL(path, params)
+	resp, err := c.OAuthClient.Post(nil, c.AccessToken, uri, params)
+	if err != nil {
+		return err
+	}
+	return Decode(resp, data)
+}
