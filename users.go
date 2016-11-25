@@ -1,4 +1,4 @@
-package twitter
+package twtr
 
 type User struct {
 	ProfileBackgroundTile          bool   `json:"profile_background_tile,omitempty"`

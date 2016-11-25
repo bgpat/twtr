@@ -1,4 +1,4 @@
-package twitter
+package twtr
 
 type Cursor struct {
 	PreviousCursor    int64  `json:"previous_cursor,omitempty"`
