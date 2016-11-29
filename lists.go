@@ -1,9 +1,5 @@
 package twtr
 
-import (
-	"net/url"
-)
-
 type List struct {
 	Slug            string `json:"slug,omitempty"`
 	Name            string `json:"name,omitempty"`
@@ -25,19 +21,19 @@ type ListMembers struct {
 	Users []User `json:"users,omitempty"`
 }
 
-func (c *Client) GetLists(params url.Values) (*[]List, error) {
+func (c *Client) GetLists(params Values) (*[]List, error) {
 	var data []List
 	err := c.GET("lists/list", params, &data)
 	return &data, err
 }
 
-func (c *Client) GetList(params url.Values) (*List, error) {
+func (c *Client) GetList(params Values) (*List, error) {
 	var data List
 	err := c.GET("lists/show", params, &data)
 	return &data, err
 }
 
-func (c *Client) GetListMembers(params url.Values) (*ListMembers, error) {
+func (c *Client) GetListMembers(params Values) (*ListMembers, error) {
 	var data ListMembers
 	err := c.GET("lists/members", params, &data)
 	return &data, err
