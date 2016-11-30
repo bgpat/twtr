@@ -46,9 +46,11 @@ func (c *Client) CreateList(params Values) (*List, error) {
 }
 
 func (c *Client) AddListMembers(params Values) error {
-	return c.POST("lists/members/create_all", params, nil)
+	var data struct{}
+	return c.POST("lists/members/create_all", params, &data)
 }
 
 func (c *Client) DelListMembers(params Values) error {
-	return c.POST("lists/members/destroy_all", params, nil)
+	var data struct{}
+	return c.POST("lists/members/destroy_all", params, &data)
 }
