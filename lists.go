@@ -45,6 +45,12 @@ func (c *Client) CreateList(params Values) (*List, error) {
 	return &data, err
 }
 
+func (c *Client) DeleteList(params Values) (*List, error) {
+	var data List
+	err := c.POST("lists/destroy", params, &data)
+	return &data, err
+}
+
 func (c *Client) AddListMember(params Values) (*List, error) {
 	var data List
 	err := c.POST("lists/members/create", params, &data)
