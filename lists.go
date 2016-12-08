@@ -50,7 +50,7 @@ func (c *Client) AddListMembers(params Values) error {
 	return c.POST("lists/members/create_all", params, &data)
 }
 
-func (c *Client) DelListMembers(params Values) error {
+func (c *Client) DeleteListMembers(params Values) error {
 	var data struct{}
 	return c.POST("lists/members/destroy_all", params, &data)
 }
