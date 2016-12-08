@@ -45,12 +45,14 @@ func (c *Client) CreateList(params Values) (*List, error) {
 	return &data, err
 }
 
-func (c *Client) AddListMembers(params Values) error {
-	var data struct{}
-	return c.POST("lists/members/create_all", params, &data)
+func (c *Client) AddListMembers(params Values) (*List, error) {
+	var data List
+	err := c.POST("lists/members/create_all", params, &data)
+	return &data, err
 }
 
-func (c *Client) DeleteListMembers(params Values) error {
-	var data struct{}
-	return c.POST("lists/members/destroy_all", params, &data)
+func (c *Client) DeleteListMembers(params Values) (*List, error) {
+	var data List
+	err := c.POST("lists/members/destroy_all", params, &data)
+	return &data, err
 }
