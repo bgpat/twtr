@@ -38,3 +38,21 @@ func (c *Client) GetListMembers(params Values) (*ListMembers, error) {
 	err := c.GET("lists/members", params, &data)
 	return &data, err
 }
+
+func (c *Client) CreateList(params Values) (*List, error) {
+	var data List
+	err := c.POST("lists/create", params, &data)
+	return &data, err
+}
+
+func (c *Client) AddListMembers(params Values) (*List, error) {
+	var data List
+	err := c.POST("lists/members/create_all", params, &data)
+	return &data, err
+}
+
+func (c *Client) DeleteListMembers(params Values) (*List, error) {
+	var data List
+	err := c.POST("lists/members/destroy_all", params, &data)
+	return &data, err
+}
