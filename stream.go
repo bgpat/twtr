@@ -44,16 +44,14 @@ func (s *Stream) Close() {
 }
 
 func (s *Stream) Decode(data interface{}) error {
-	for {
-		if s.Data == nil {
-			return errors.New("stream is not initialized")
-		}
+	for s.Data != nil {
 		str := <-s.Data
 		if str == "" {
 			continue
 		}
 		return json.NewDecoder(strings.NewReader(str)).Decode(data)
 	}
+	return errors.New("stream is not initialized")
 }
 
 func (s *Stream) worker() {
