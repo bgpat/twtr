@@ -1,24 +1,23 @@
 package twtr
 
 type List struct {
-	Slug            string `json:"slug,omitempty"`
-	Name            string `json:"name,omitempty"`
-	CreatedAt       Time   `json:"created_at,omitempty"`
-	URI             string `json:"uri,omitempty"`
-	SubscriberCount int    `json:"subscriber_count,omitempty"`
-	IDStr           string `json:"id_str,omitempty"`
-	MemberCount     int    `json:"member_count,omitempty"`
-	Mode            string `json:"mode,omitempty"`
-	ID              int64  `json:"id,omitempty"`
-	FullName        string `json:"full_name,omitempty"`
-	Description     string `json:"description,omitempty"`
-	User            User   `json:"user,omitempty"`
-	Following       bool   `json:"following,omitempty"`
+	ID
+	Slug            string `json:"slug"`
+	Name            string `json:"name"`
+	CreatedAt       Time   `json:"created_at"`
+	URI             string `json:"uri"`
+	SubscriberCount int    `json:"subscriber_count"`
+	MemberCount     int    `json:"member_count"`
+	Mode            string `json:"mode"`
+	FullName        string `json:"full_name"`
+	Description     string `json:"description"`
+	User            User   `json:"user"`
+	Following       bool   `json:"following"`
 }
 
 type ListMembers struct {
 	Cursor
-	Users []User `json:"users,omitempty"`
+	Users []User `json:"users"`
 }
 
 func (c *Client) GetLists(params Values) (*[]List, error) {
