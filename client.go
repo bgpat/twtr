@@ -7,10 +7,11 @@ import (
 )
 
 type Client struct {
-	OAuthClient  oauth.Client
-	AccessToken  *oauth.Credentials
-	RequestToken *oauth.Credentials
-	URLFormat    string
+	OAuthClient   oauth.Client
+	AccessToken   *oauth.Credentials
+	RequestToken  *oauth.Credentials
+	URLFormat     string
+	UserStreamURL string
 }
 
 func NewClient(consumer, token *oauth.Credentials) *Client {
@@ -21,8 +22,9 @@ func NewClient(consumer, token *oauth.Credentials) *Client {
 			TokenRequestURI:               "https://api.twitter.com/oauth/access_token",
 			Credentials:                   *consumer,
 		},
-		AccessToken: token,
-		URLFormat:   "https://api.twitter.com/1.1/%s.json",
+		AccessToken:   token,
+		URLFormat:     "https://api.twitter.com/1.1/%s.json",
+		UserStreamURL: "https://userstream.twitter.com/1.1/user.json",
 	}
 }
 
