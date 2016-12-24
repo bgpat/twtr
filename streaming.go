@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type Stream struct {
+type Streaming struct {
 	*http.Response
 	Data chan string
 }
 
-func (c *Client) NewStream(method, urlStr string, params Values) (*Stream, error) {
+func (c *Client) NewStreaming(method, urlStr string, params Values) (*Streaming, error) {
 	var resp *http.Response
 	var err error
 	if method == "GET" {
@@ -27,23 +27,23 @@ func (c *Client) NewStream(method, urlStr string, params Values) (*Stream, error
 		return nil, err
 	}
 	ch := make(chan string)
-	stream := &Stream{
+	streaming := &Streaming{
 		Response: resp,
 		Data:     ch,
 	}
-	go stream.worker()
-	return stream, nil
+	go streaming.worker()
+	return streaming, nil
 }
 
-func (s *Stream) Close() {
+func (s *Streaming) Close() {
 	s.Response.Body.Close()
-	ch := make(chan struct{}, 0)
+	ch := make(chan struct{})
 	s.Response.Request.Cancel = ch
 	close(ch)
 	s.Data = nil
 }
 
-func (s *Stream) Decode(data interface{}) (string, error) {
+func (s *Streaming) Decode(data interface{}) (string, error) {
 	for s.Data != nil {
 		text := <-s.Data
 		if text == "" {
@@ -51,10 +51,10 @@ func (s *Stream) Decode(data interface{}) (string, error) {
 		}
 		return text, json.NewDecoder(strings.NewReader(text)).Decode(data)
 	}
-	return "", errors.New("stream is not initialized")
+	return "", errors.New("streaming is not initialized")
 }
 
-func (s *Stream) worker() {
+func (s *Streaming) worker() {
 	scanner := bufio.NewScanner(s.Response.Body)
 	for scanner.Scan() {
 		s.Data <- scanner.Text()
