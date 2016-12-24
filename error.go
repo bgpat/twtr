@@ -7,14 +7,14 @@ import (
 )
 
 type Error struct {
-	Code    int    `json:"code,omitempty"`
-	Message string `json:"message,omitempty"`
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }
 
 type Errors struct {
-	Status     string  `json:"status,omitempty"`
-	StatusCode int     `json:"status_code,omitempty"`
-	Errors     []Error `json:"errors,omitempty"`
+	Status     string  `json:"status"`
+	StatusCode int     `json:"status_code"`
+	Errors     []Error `json:"errors"`
 }
 
 func (e *Error) Error() string {
