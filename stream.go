@@ -43,15 +43,15 @@ func (s *Stream) Close() {
 	s.Data = nil
 }
 
-func (s *Stream) Decode(data interface{}) error {
+func (s *Stream) Decode(data interface{}) (string, error) {
 	for s.Data != nil {
-		str := <-s.Data
-		if str == "" {
+		text := <-s.Data
+		if text == "" {
 			continue
 		}
-		return json.NewDecoder(strings.NewReader(str)).Decode(data)
+		return text, json.NewDecoder(strings.NewReader(text)).Decode(data)
 	}
-	return errors.New("stream is not initialized")
+	return "", errors.New("stream is not initialized")
 }
 
 func (s *Stream) worker() {
