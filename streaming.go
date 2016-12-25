@@ -155,13 +155,12 @@ func (s *Streaming) Close() {
 }
 
 func (s *Streaming) Start() {
-	go s.polling()
 	s.listen = make(chan struct{})
+	go s.polling()
 }
 
 func (s *Streaming) Stop() {
 	close(s.listen)
-	s.listen = nil
 }
 
 func (s *Streaming) Decode() (interface{}, error) {
@@ -210,12 +209,10 @@ func (s *Streaming) Decode() (interface{}, error) {
 }
 
 func (s *Streaming) polling() {
-	if s.listen != nil {
-		return
-	}
 	for {
 		select {
 		case <-s.listen:
+			s.listen = nil
 			return
 		default:
 			event, err := s.Decode()
