@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/dustin/go-jsonpointer"
@@ -11,9 +12,10 @@ import (
 
 type Streaming struct {
 	*http.Response
-	Event chan interface{}
-	Error chan error
-	text  chan string
+	Event   chan interface{}
+	Error   chan error
+	scanner *bufio.Scanner
+	listen  chan struct{}
 }
 
 type StreamingGeneralEvent struct {
@@ -133,75 +135,100 @@ func (c *Client) NewStreaming(method, urlStr string, params Values) (*Streaming,
 	if err != nil {
 		return nil, err
 	}
-	ch := make(chan string)
+	scanner := bufio.NewScanner(resp.Body)
 	streaming := &Streaming{
 		Response: resp,
-		text:     ch,
+		scanner:  scanner,
 	}
-	go streaming.polling()
 	return streaming, nil
 }
 
 func (s *Streaming) Close() {
-	s.Response.Body.Close()
+	if s.listen != nil {
+		s.Stop()
+	}
 	ch := make(chan struct{})
 	s.Response.Request.Cancel = ch
 	close(ch)
-	s.text = nil
+	s.Response.Body.Close()
+	s.scanner = nil
+}
+
+func (s *Streaming) Start() {
+	go s.polling()
+	s.listen = make(chan struct{})
+}
+
+func (s *Streaming) Stop() {
+	close(s.listen)
+	s.listen = nil
 }
 
 func (s *Streaming) Decode() (interface{}, error) {
-	for s.text != nil {
-		json := []byte(<-s.text)
-		if e := new(StreamingTweetEvent); validEventType(e, json, "/target_object/source") {
+	for s.scanner != nil && s.scanner.Scan() {
+		data := s.scanner.Bytes()
+		if len(data) == 0 {
+			continue
+		}
+		if e := new(StreamingTweetEvent); validEventType(e, data, "/target_object/source") {
 			return e, nil
-		} else if e := new(StreamingListEvent); validEventType(e, json, "/target_object/slug") {
+		} else if e := new(StreamingListEvent); validEventType(e, data, "/target_object/slug") {
 			return e, nil
-		} else if e := new(StreamingGeneralEvent); validEventType(e, json, "/event") {
+		} else if e := new(StreamingGeneralEvent); validEventType(e, data, "/event") {
 			return e, nil
-		} else if e := new(Tweet); validEventType(e, json, "/source") {
+		} else if e := new(Tweet); validEventType(e, data, "/source") {
 			return e, nil
-		} else if e := new(StreamingDirectMessageEvent); validEventType(e, json, "/direct_message") {
+		} else if e := new(StreamingDirectMessageEvent); validEventType(e, data, "/direct_message") {
 			return e, nil
-		} else if e := new(StreamingDeleteTweetEvent); validEventType(e, json, "/delete/status") {
+		} else if e := new(StreamingDeleteTweetEvent); validEventType(e, data, "/delete/status") {
 			return e, nil
-		} else if e := new(StreamingDeleteDirectMessageEvent); validEventType(e, json, "/delete/direct_message") {
+		} else if e := new(StreamingDeleteDirectMessageEvent); validEventType(e, data, "/delete/direct_message") {
 			return e, nil
-		} else if e := new(StreamingDeleteLocationEvent); validEventType(e, json, "/scrub_geo") {
+		} else if e := new(StreamingDeleteLocationEvent); validEventType(e, data, "/scrub_geo") {
 			return e, nil
-		} else if e := new(StreamingLimitEvent); validEventType(e, json, "/limit") {
+		} else if e := new(StreamingLimitEvent); validEventType(e, data, "/limit") {
 			return e, nil
-		} else if e := new(StreamingStatusWithheldEvent); validEventType(e, json, "/status_withheld") {
+		} else if e := new(StreamingStatusWithheldEvent); validEventType(e, data, "/status_withheld") {
 			return e, nil
-		} else if e := new(StreamingUserWithheldEvent); validEventType(e, json, "/user_withheld") {
+		} else if e := new(StreamingUserWithheldEvent); validEventType(e, data, "/user_withheld") {
 			return e, nil
-		} else if e := new(StreamingDisconnectEvent); validEventType(e, json, "/disconnect") {
+		} else if e := new(StreamingDisconnectEvent); validEventType(e, data, "/disconnect") {
 			return e, nil
-		} else if e := new(StreamingWarningEvent); validEventType(e, json, "/warning") {
+		} else if e := new(StreamingWarningEvent); validEventType(e, data, "/warning") {
 			return e, nil
-		} else if e := new(StreamingEnvelopeEvent); validEventType(e, json, "/for_user") {
+		} else if e := new(StreamingEnvelopeEvent); validEventType(e, data, "/for_user") {
 			return e, nil
-		} else if e := new(StreamingControlEvent); validEventType(e, json, "/control") {
+		} else if e := new(StreamingControlEvent); validEventType(e, data, "/control") {
 			return e, nil
-		} else if e := new(StreamingFriendsEvent); validEventType(e, json, "/friends") {
+		} else if e := new(StreamingFriendsEvent); validEventType(e, data, "/friends") {
 			return e, nil
+		} else {
+			return nil, errors.New(fmt.Sprintf("failed to decode: %#v", data))
 		}
 	}
 	return nil, errors.New("streaming is not yet initialized")
 }
 
 func (s *Streaming) polling() {
-	scanner := bufio.NewScanner(s.Response.Body)
-	for scanner.Scan() {
-		s.text <- scanner.Text()
-		//if s.Event != nil {
-		event, err := s.Decode()
-		if err == nil {
-			s.Event <- event
-		} else if s.Error != nil {
-			s.Error <- err
+	if s.listen != nil {
+		return
+	}
+	for {
+		select {
+		case <-s.listen:
+			return
+		default:
+			event, err := s.Decode()
+			if err != nil {
+				if s.Error != nil {
+					s.Error <- err
+				}
+			} else {
+				if s.Event != nil {
+					s.Event <- event
+				}
+			}
 		}
-		//}
 	}
 }
 
