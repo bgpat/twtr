@@ -20,56 +20,56 @@ type ListMembers struct {
 	Users []User `json:"users"`
 }
 
-func (c *Client) GetLists(params Values) (*[]List, error) {
-	var data []List
-	err := c.GET("lists/list", params, &data)
-	return &data, err
-}
-
 func (c *Client) GetList(params Values) (*List, error) {
-	var data List
-	err := c.GET("lists/show", params, &data)
-	return &data, err
+	lst := new(List)
+	err := c.GET("lists/show", params, &lst)
+	return lst, err
 }
 
-func (c *Client) GetListMembers(params Values) (*ListMembers, error) {
-	var data ListMembers
-	err := c.GET("lists/members", params, &data)
-	return &data, err
+func (c *Client) GetLists(params Values) ([]List, error) {
+	var lists []List
+	err := c.GET("lists/list", params, &lists)
+	return lists, err
 }
 
 func (c *Client) CreateList(params Values) (*List, error) {
-	var data List
-	err := c.POST("lists/create", params, &data)
-	return &data, err
+	lst := new(List)
+	err := c.POST("lists/create", params, &lst)
+	return lst, err
 }
 
 func (c *Client) DeleteList(params Values) (*List, error) {
-	var data List
-	err := c.POST("lists/destroy", params, &data)
-	return &data, err
+	lst := new(List)
+	err := c.POST("lists/destroy", params, &lst)
+	return lst, err
+}
+
+func (c *Client) GetListMembers(params Values) (*ListMembers, error) {
+	members := new(ListMembers)
+	err := c.GET("lists/members", params, &members)
+	return members, err
 }
 
 func (c *Client) AddListMember(params Values) (*List, error) {
-	var data List
-	err := c.POST("lists/members/create", params, &data)
-	return &data, err
+	lst := new(List)
+	err := c.POST("lists/members/create", params, &lst)
+	return lst, err
 }
 
 func (c *Client) AddListMembers(params Values) (*List, error) {
-	var data List
-	err := c.POST("lists/members/create_all", params, &data)
-	return &data, err
+	lst := new(List)
+	err := c.POST("lists/members/create_all", params, &lst)
+	return lst, err
 }
 
 func (c *Client) DeleteListMember(params Values) (*List, error) {
-	var data List
-	err := c.POST("lists/members/destroy", params, &data)
-	return &data, err
+	lst := new(List)
+	err := c.POST("lists/members/destroy", params, &lst)
+	return lst, err
 }
 
 func (c *Client) DeleteListMembers(params Values) (*List, error) {
-	var data List
-	err := c.POST("lists/members/destroy_all", params, &data)
-	return &data, err
+	lst := new(List)
+	err := c.POST("lists/members/destroy_all", params, &lst)
+	return lst, err
 }
