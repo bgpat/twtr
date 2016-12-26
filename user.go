@@ -68,3 +68,9 @@ func (c *Client) SearchUsers(params Values) ([]User, error) {
 	err := c.GET("users/search", params, &users)
 	return users, err
 }
+
+func (c *Client) ReportSpamUser(params Values) (*User, error) {
+	user := new(User)
+	err := c.POST("users/report_spam", params, user)
+	return user, err
+}
