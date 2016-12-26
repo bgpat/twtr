@@ -52,7 +52,7 @@ func (c *Client) GetUser(params Values) (*User, error) {
 }
 
 func (c *Client) GetUsers(params Values) ([]User, error) {
-	users := []User{}
+	var users []User
 	err := c.GET("users/lookup", params, &users)
 	return users, err
 }
@@ -64,7 +64,7 @@ func (c *Client) GetUserProfileBanner(params Values) (*Images, error) {
 }
 
 func (c *Client) SearchUsers(params Values) ([]User, error) {
-	users := []User{}
+	var users []User
 	err := c.GET("users/search", params, &users)
 	return users, err
 }
