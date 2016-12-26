@@ -44,3 +44,27 @@ type User struct {
 	WithheldInCountries            string   `json:"withheld_in_countries"`
 	WithheldScope                  string   `json:"withheld_scope"`
 }
+
+func (c *Client) GetUser(params Values) (*User, error) {
+	user := new(User)
+	err := c.GET("users/show", params, user)
+	return user, err
+}
+
+func (c *Client) GetUsers(params Values) ([]User, error) {
+	users := []User{}
+	err := c.GET("users/lookup", params, &users)
+	return users, err
+}
+
+func (c *Client) GetUserProfileBanner(params Values) (*Images, error) {
+	images := new(Images)
+	err := c.GET("users/profile_banner", params, images)
+	return images, err
+}
+
+func (c *Client) SearchUsers(params Values) ([]User, error) {
+	users := []User{}
+	err := c.GET("users/search", params, &users)
+	return users, err
+}
