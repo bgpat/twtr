@@ -3,7 +3,7 @@ package twtr
 type Place struct {
 	Attributes      map[string]string `json:"attributes"`
 	BoundingBox     PlaceBoundingBox  `json:"bounding_box"`
-	ContainedWithin *Place            `json:"contained_within"`
+	ContainedWithin []Place           `json:"contained_within"`
 	Country         string            `json:"country"`
 	CountryCode     string            `json:"country_code"`
 	FullName        string            `json:"full_name"`
