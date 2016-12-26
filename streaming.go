@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/dustin/go-jsonpointer"
 )
@@ -15,7 +16,7 @@ type Streaming struct {
 	Event   chan interface{}
 	Error   chan error
 	scanner *bufio.Scanner
-	listen  chan struct{}
+	listen  *sync.Mutex
 }
 
 type StreamingGeneralEvent struct {
@@ -136,17 +137,19 @@ func (c *Client) NewStreaming(method, urlStr string, params Values) (*Streaming,
 		return nil, err
 	}
 	scanner := bufio.NewScanner(resp.Body)
+	listen := new(sync.Mutex)
 	streaming := &Streaming{
 		Response: resp,
 		scanner:  scanner,
+		listen:   listen,
 	}
+	streaming.Stop()
+	go streaming.polling()
 	return streaming, nil
 }
 
 func (s *Streaming) Close() {
-	if s.listen != nil {
-		s.Stop()
-	}
+	s.listen = nil
 	ch := make(chan struct{})
 	s.Response.Request.Cancel = ch
 	close(ch)
@@ -155,12 +158,15 @@ func (s *Streaming) Close() {
 }
 
 func (s *Streaming) Start() {
-	s.listen = make(chan struct{})
-	go s.polling()
+	if s.listen != nil {
+		s.listen.Unlock()
+	}
 }
 
 func (s *Streaming) Stop() {
-	close(s.listen)
+	if s.listen != nil {
+		s.listen.Lock()
+	}
 }
 
 func (s *Streaming) Decode() (interface{}, error) {
@@ -209,21 +215,17 @@ func (s *Streaming) Decode() (interface{}, error) {
 }
 
 func (s *Streaming) polling() {
-	for {
-		select {
-		case <-s.listen:
-			s.listen = nil
-			return
-		default:
-			event, err := s.Decode()
-			if err != nil {
-				if s.Error != nil {
-					s.Error <- err
-				}
-			} else {
-				if s.Event != nil {
-					s.Event <- event
-				}
+	for s.listen != nil {
+		s.listen.Lock()
+		s.listen.Unlock()
+		event, err := s.Decode()
+		if err != nil {
+			if s.Error != nil {
+				s.Error <- err
+			}
+		} else {
+			if s.Event != nil {
+				s.Event <- event
 			}
 		}
 	}
