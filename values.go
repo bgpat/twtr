@@ -9,7 +9,7 @@ type Values map[string]string
 
 func (v *Values) ToURLValues() (u url.Values) {
 	if v == nil {
-		v = new(Values)
+		return
 	}
 	for n, s := range *v {
 		u[n] = []string{s}
@@ -19,7 +19,7 @@ func (v *Values) ToURLValues() (u url.Values) {
 
 func (v *Values) ParseURL(urlStr string) string {
 	if v == nil {
-		v = new(Values)
+		return urlStr
 	}
 	for k, s := range *v {
 		if len(k) <= 0 || k[0] != ':' {
