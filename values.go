@@ -11,6 +11,7 @@ func (v *Values) ToURLValues() (u url.Values) {
 	if v == nil {
 		return
 	}
+	u = url.Values{}
 	for n, s := range *v {
 		u[n] = []string{s}
 	}
