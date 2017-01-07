@@ -31,3 +31,13 @@ func (v *Values) ParseURL(urlStr string) string {
 	}
 	return urlStr
 }
+
+func (v *Values) AddNextCursor(cursor Cursor) *Values {
+	(*v)["cursor"] = cursor.NextCursorStr
+	return v
+}
+
+func (v *Values) AddPreviousCursor(cursor Cursor) *Values {
+	(*v)["cursor"] = cursor.PreviousCursorStr
+	return v
+}
