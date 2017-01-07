@@ -45,6 +45,11 @@ type User struct {
 	WithheldScope                  string   `json:"withheld_scope"`
 }
 
+type UserIDs struct {
+	Cursor
+	IDs []int64 `json:"ids"`
+}
+
 func (c *Client) GetUser(params *Values) (*User, error) {
 	user := new(User)
 	err := c.GET("users/show", params, user)
