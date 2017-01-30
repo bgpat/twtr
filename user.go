@@ -79,3 +79,9 @@ func (c *Client) ReportSpamUser(params *Values) (*User, error) {
 	err := c.POST("users/report_spam", params, user)
 	return user, err
 }
+
+func (c *Client) GetMyProfile(params *Values) (*User, error) {
+	user := new(User)
+	err := c.GET("account/verify_credentials", params, user)
+	return user, err
+}
