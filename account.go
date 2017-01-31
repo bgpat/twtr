@@ -25,3 +25,9 @@ type AccountSleepTime struct {
 	EndTime   int  `json:"end_time"`
 	StartTime int  `json:"start_time"`
 }
+
+func (c *Client) GetAccountSettings(params *Values) (*User, error) {
+	user := new(User)
+	err := c.GET("account/settings", params, user)
+	return user, err
+}
