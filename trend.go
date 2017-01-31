@@ -5,8 +5,8 @@ type TrendLocation struct {
 	CountryCode string         `json:"country_code"`
 	URL         string         `json:"url"`
 	WOEID       int            `json:"woeid"`
-	PlaceType   TrendPlaceType `json:"place_type"`
-	ParentID    int            `json:"parent_id"`
+	PlaceType   TrendPlaceType `json:"placeType"`
+	ParentID    int            `json:"parentid"`
 	Country     string         `json:"country"`
 }
 
