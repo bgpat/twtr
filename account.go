@@ -31,3 +31,9 @@ func (c *Client) GetAccountSettings(params *Values) (*AccountSettings, error) {
 	err := c.GET("account/settings", params, settings)
 	return settings, err
 }
+
+func (c *Client) UpdateAccountSettings(params *Values) (*AccountSettings, error) {
+	settings := new(AccountSettings)
+	err := c.POST("account/settings", params, settings)
+	return settings, err
+}
