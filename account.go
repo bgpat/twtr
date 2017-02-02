@@ -37,3 +37,9 @@ func (c *Client) UpdateAccountSettings(params *Values) (*AccountSettings, error)
 	err := c.POST("account/settings", params, settings)
 	return settings, err
 }
+
+func (c *Client) VerifyCredentials(params *Values) (*User, error) {
+	user := new(User)
+	err := c.GET("account/verify_credentials", params, user)
+	return user, err
+}
