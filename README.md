@@ -1,6 +1,10 @@
 # twtr
 
-## USAGE
+## Installation
+
+Install and update with `go get github.com/bgpat/twtr`
+
+## Examples
 
 ### REST API
 
@@ -13,11 +17,19 @@ client := twtr.NewClient(consumer, token)
 user, err := client.VerifyCredentials(nil)
 ```
 
-### OAuth Verify URL
+### Get OAuth Token
 
 ```go
-consumer := twtr.NewCredentials(consumerKey, consumerSecret)
-client := twtr.NewClient(consumer, nil)
+	consumer := twtr.NewCredentials(consumerKey, consumerSecret)
+	client := twtr.NewClient(consumer, nil)
 
-url, err := client.RequestTokenURL("https://example.com/")
+	url, _ := client.RequestTokenURL("https://401.jp/")
+	fmt.Println(url)
+
+	var verifier string
+	fmt.Scan(&verifier)
+	client.GetAccessToken(verifier)
+
+	user, _ := client.VerifyCredentials(nil)
+	fmt.Println(user)
 ```
