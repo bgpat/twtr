@@ -1,8 +1,6 @@
 package twtr
 
 import (
-	"log"
-
 	"github.com/garyburd/go-oauth/oauth"
 )
 
@@ -38,12 +36,11 @@ func (c *Client) RequestTokenURL(callback string) (string, error) {
 }
 
 func (c *Client) GetAccessToken(verifier string) error {
-	token, resp, err := c.OAuthClient.RequestToken(nil, &c.RequestToken.Credentials, verifier)
+	token, _, err := c.OAuthClient.RequestToken(nil, &c.RequestToken.Credentials, verifier)
 	if err != nil {
 		return err
 	}
 	c.RequestToken = nil
 	c.AccessToken = &Credentials{Credentials: *token}
-	log.Printf("%#v\n", resp)
 	return nil
 }
