@@ -19,11 +19,11 @@ func (c *Client) formatURL(path string, params *Values) string {
 }
 
 func (c *Client) getRequest(urlStr string, params *Values) (*http.Response, error) {
-	return c.OAuthClient.Get(nil, c.AccessToken, params.ParseURL(urlStr), params.ToURLValues())
+	return c.OAuthClient.Get(nil, &c.AccessToken.Credentials, params.ParseURL(urlStr), params.ToURLValues())
 }
 
 func (c *Client) postRequest(urlStr string, params *Values) (*http.Response, error) {
-	return c.OAuthClient.Post(nil, c.AccessToken, params.ParseURL(urlStr), params.ToURLValues())
+	return c.OAuthClient.Post(nil, &c.AccessToken.Credentials, params.ParseURL(urlStr), params.ToURLValues())
 }
 
 func (c *Client) GET(path string, params *Values, data interface{}) error {
