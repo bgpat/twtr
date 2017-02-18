@@ -1,7 +1,7 @@
 language: go
 before_install:
-  - go get github.com/dustin/go-jsonpointer
-  - go get github.com/dustin/gojson
-  - go get github.com/garyburd/go-oauth/oauth
+  - go get -t -v ./...
 script:
-  - go test
+  - go test -race -coverprofile=coverage.txt -covermode=atomic
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
