@@ -208,7 +208,7 @@ func (s *Streaming) Decode() (interface{}, error) {
 		} else if e := new(StreamingFriendsEvent); validEventType(e, data, "/friends") {
 			return e, nil
 		} else {
-			return nil, errors.New(fmt.Sprintf("failed to decode: %#v", data))
+			return nil, fmt.Errorf("failed to decode: %#v", data)
 		}
 	}
 	return nil, errors.New("streaming is not yet initialized")

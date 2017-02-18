@@ -4,7 +4,7 @@ type AccountSettings struct {
 	AllowContributorRequest   string           `json:"allow_contributor_request"`
 	AllowDMsFrom              string           `json:"allow_dms_from"`
 	AllowDMGroupsFrom         string           `json:"allow_dm_groups_from"`
-	AlwaysUseHttps            bool             `json:"always_use_https"`
+	AlwaysUseHTTPS            bool             `json:"always_use_https"`
 	DiscoverableByEmail       bool             `json:"discoverable_by_email"`
 	DiscoverableByMobilePhone bool             `json:"discoverable_by_mobile_phone"`
 	DisplaySensitiveMedia     bool             `json:"display_sensitive_media"`
