@@ -11,4 +11,5 @@ func TestVerifyCredentials(t *testing.T) {
 	} else if user == nil {
 		t.Error("Invalid user")
 	}
+	t.Logf("%+v\n", user)
 }

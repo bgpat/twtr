@@ -28,4 +28,5 @@ func TestRequestTokenURL(t *testing.T) {
 	} else if url == "" {
 		t.Error("Request token URL is empty")
 	}
+	t.Logf("%s", url)
 }
