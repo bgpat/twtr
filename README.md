@@ -30,7 +30,7 @@ user, resp, err := client.VerifyCredentials(nil)
 	fmt.Scan(&verifier)
 	client.GetAccessToken(verifier)
 
-	user, _, err := client.VerifyCredentials(nil)
+	user, _, err := client.GetUser(&twtr.Params{"screen_name": "Twitter"})
 	if err != nil {
 		fmt.Println("error:", err)
 		return
