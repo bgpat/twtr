@@ -11,7 +11,13 @@ func decodeResponse(resp *http.Response, data interface{}) error {
 		return err
 	}
 	defer resp.Body.Close()
-	return json.NewDecoder(resp.Body).Decode(data)
+	err := json.NewDecoder(resp.Body).Decode(data)
+	if t, ok := data.(Responser); ok {
+		if err := t.ParseResponse(resp); err != nil {
+			return err
+		}
+	}
+	return err
 }
 
 func (c *Client) formatURL(path string, params *Values) string {
