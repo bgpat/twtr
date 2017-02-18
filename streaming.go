@@ -123,7 +123,7 @@ type StreamingFriendsEvent struct {
 	Friends []int64 `json:"friends"`
 }
 
-func (c *Client) NewStreaming(method, urlStr string, params *Values) (*Streaming, error) {
+func (c *Client) NewStreaming(method, urlStr string, params *Params) (*Streaming, error) {
 	var resp *http.Response
 	var err error
 	if method == http.MethodGet {

@@ -5,39 +5,39 @@ import (
 	"strings"
 )
 
-type Values map[string]string
+type Params map[string]string
 
-func (v *Values) ToURLValues() (u url.Values) {
-	if v == nil {
+func (p *Params) ToURLValues() (u url.Values) {
+	if p == nil {
 		return
 	}
 	u = url.Values{}
-	for n, s := range *v {
+	for n, s := range *p {
 		u[n] = []string{s}
 	}
 	return
 }
 
-func (v *Values) ParseURL(urlStr string) string {
-	if v == nil {
+func (p *Params) ParseURL(urlStr string) string {
+	if p == nil {
 		return urlStr
 	}
-	for k, s := range *v {
+	for k, s := range *p {
 		if len(k) <= 0 || k[0] != ':' {
 			continue
 		}
 		urlStr = strings.Replace(urlStr, k, s, -1)
-		delete(*v, k)
+		delete(*p, k)
 	}
 	return urlStr
 }
 
-func (v *Values) AddNextCursor(cursor Cursor) *Values {
-	(*v)["cursor"] = cursor.NextCursorStr
-	return v
+func (p *Params) AddNextCursor(cursor Cursor) *Params {
+	(*p)["cursor"] = cursor.NextCursorStr
+	return p
 }
 
-func (v *Values) AddPreviousCursor(cursor Cursor) *Values {
-	(*v)["cursor"] = cursor.PreviousCursorStr
-	return v
+func (p *Params) AddPreviousCursor(cursor Cursor) *Params {
+	(*p)["cursor"] = cursor.PreviousCursorStr
+	return p
 }

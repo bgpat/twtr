@@ -20,55 +20,55 @@ type ListMembers struct {
 	Users []User `json:"users"`
 }
 
-func (c *Client) GetList(params *Values) (*List, *Response, error) {
+func (c *Client) GetList(params *Params) (*List, *Response, error) {
 	list := new(List)
 	resp, err := c.GET("lists/show", params, &list)
 	return list, resp, err
 }
 
-func (c *Client) GetLists(params *Values) ([]List, *Response, error) {
+func (c *Client) GetLists(params *Params) ([]List, *Response, error) {
 	var lists []List
 	resp, err := c.GET("lists/list", params, &lists)
 	return lists, resp, err
 }
 
-func (c *Client) CreateList(params *Values) (*List, *Response, error) {
+func (c *Client) CreateList(params *Params) (*List, *Response, error) {
 	list := new(List)
 	resp, err := c.POST("lists/create", params, &list)
 	return list, resp, err
 }
 
-func (c *Client) DeleteList(params *Values) (*List, *Response, error) {
+func (c *Client) DeleteList(params *Params) (*List, *Response, error) {
 	list := new(List)
 	resp, err := c.POST("lists/destroy", params, &list)
 	return list, resp, err
 }
 
-func (c *Client) GetListMembers(params *Values) (*ListMembers, *Response, error) {
+func (c *Client) GetListMembers(params *Params) (*ListMembers, *Response, error) {
 	members := new(ListMembers)
 	resp, err := c.GET("lists/members", params, &members)
 	return members, resp, err
 }
 
-func (c *Client) AddListMember(params *Values) (*List, *Response, error) {
+func (c *Client) AddListMember(params *Params) (*List, *Response, error) {
 	list := new(List)
 	resp, err := c.POST("lists/members/create", params, &list)
 	return list, resp, err
 }
 
-func (c *Client) AddListMembers(params *Values) (*List, *Response, error) {
+func (c *Client) AddListMembers(params *Params) (*List, *Response, error) {
 	list := new(List)
 	resp, err := c.POST("lists/members/create_all", params, &list)
 	return list, resp, err
 }
 
-func (c *Client) DeleteListMember(params *Values) (*List, *Response, error) {
+func (c *Client) DeleteListMember(params *Params) (*List, *Response, error) {
 	list := new(List)
 	resp, err := c.POST("lists/members/destroy", params, &list)
 	return list, resp, err
 }
 
-func (c *Client) DeleteListMembers(params *Values) (*List, *Response, error) {
+func (c *Client) DeleteListMembers(params *Params) (*List, *Response, error) {
 	list := new(List)
 	resp, err := c.POST("lists/members/destroy_all", params, &list)
 	return list, resp, err

@@ -10,7 +10,7 @@ type RateLimitContext struct {
 	Application string `json:"application"`
 }
 
-func (c *Client) GetRateLimitStatus(params *Values) (*RateLimitStatus, *Response, error) {
+func (c *Client) GetRateLimitStatus(params *Params) (*RateLimitStatus, *Response, error) {
 	status := new(RateLimitStatus)
 	resp, err := c.GET("application/rate_limit_status", params, status)
 	return status, resp, err
