@@ -11,10 +11,6 @@ type Response struct {
 	*Limit
 }
 
-type Responser interface {
-	ParseResponse(*http.Response) error
-}
-
 func (r *Response) ParseResponse(resp *http.Response) error {
 	r.Response = resp
 	return r.parseLimit()

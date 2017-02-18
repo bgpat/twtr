@@ -50,32 +50,32 @@ type UserIDs struct {
 	IDs []int64 `json:"ids"`
 }
 
-func (c *Client) GetUser(params *Values) (*User, error) {
+func (c *Client) GetUser(params *Values) (*User, *Response, error) {
 	user := new(User)
-	err := c.GET("users/show", params, user)
-	return user, err
+	resp, err := c.GET("users/show", params, user)
+	return user, resp, err
 }
 
-func (c *Client) GetUsers(params *Values) ([]User, error) {
+func (c *Client) GetUsers(params *Values) ([]User, *Response, error) {
 	var users []User
-	err := c.GET("users/lookup", params, &users)
-	return users, err
+	resp, err := c.GET("users/lookup", params, &users)
+	return users, resp, err
 }
 
-func (c *Client) GetUserProfileBanner(params *Values) (*Images, error) {
+func (c *Client) GetUserProfileBanner(params *Values) (*Images, *Response, error) {
 	images := new(Images)
-	err := c.GET("users/profile_banner", params, images)
-	return images, err
+	resp, err := c.GET("users/profile_banner", params, images)
+	return images, resp, err
 }
 
-func (c *Client) SearchUsers(params *Values) ([]User, error) {
+func (c *Client) SearchUsers(params *Values) ([]User, *Response, error) {
 	var users []User
-	err := c.GET("users/search", params, &users)
-	return users, err
+	resp, err := c.GET("users/search", params, &users)
+	return users, resp, err
 }
 
-func (c *Client) ReportSpamUser(params *Values) (*User, error) {
+func (c *Client) ReportSpamUser(params *Values) (*User, *Response, error) {
 	user := new(User)
-	err := c.POST("users/report_spam", params, user)
-	return user, err
+	resp, err := c.POST("users/report_spam", params, user)
+	return user, resp, err
 }

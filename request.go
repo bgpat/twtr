@@ -6,18 +6,18 @@ import (
 	"net/http"
 )
 
-func decodeResponse(resp *http.Response, data interface{}) error {
+func decodeResponse(resp *http.Response, data interface{}) (*Response, error) {
 	if err := NewErrors(resp); err != nil {
-		return err
+		return nil, err
+	}
+	r := new(Response)
+	err := r.ParseResponse(resp)
+	if err != nil {
+		return nil, err
 	}
 	defer resp.Body.Close()
-	err := json.NewDecoder(resp.Body).Decode(data)
-	if t, ok := data.(Responser); ok {
-		if err := t.ParseResponse(resp); err != nil {
-			return err
-		}
-	}
-	return err
+	err = json.NewDecoder(resp.Body).Decode(data)
+	return r, err
 }
 
 func (c *Client) formatURL(path string, params *Values) string {
@@ -32,20 +32,20 @@ func (c *Client) postRequest(urlStr string, params *Values) (*http.Response, err
 	return c.OAuthClient.Post(nil, &c.AccessToken.Credentials, params.ParseURL(urlStr), params.ToURLValues())
 }
 
-func (c *Client) GET(path string, params *Values, data interface{}) error {
+func (c *Client) GET(path string, params *Values, data interface{}) (*Response, error) {
 	urlStr := c.formatURL(path, params)
 	resp, err := c.getRequest(urlStr, params)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return decodeResponse(resp, data)
 }
 
-func (c *Client) POST(path string, params *Values, data interface{}) error {
+func (c *Client) POST(path string, params *Values, data interface{}) (*Response, error) {
 	urlStr := c.formatURL(path, params)
 	resp, err := c.postRequest(urlStr, params)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return decodeResponse(resp, data)
 }

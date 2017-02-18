@@ -26,20 +26,20 @@ type AccountSleepTime struct {
 	StartTime int  `json:"start_time"`
 }
 
-func (c *Client) GetAccountSettings(params *Values) (*AccountSettings, error) {
+func (c *Client) GetAccountSettings(params *Values) (*AccountSettings, *Response, error) {
 	settings := new(AccountSettings)
-	err := c.GET("account/settings", params, settings)
-	return settings, err
+	resp, err := c.GET("account/settings", params, settings)
+	return settings, resp, err
 }
 
-func (c *Client) UpdateAccountSettings(params *Values) (*AccountSettings, error) {
+func (c *Client) UpdateAccountSettings(params *Values) (*AccountSettings, *Response, error) {
 	settings := new(AccountSettings)
-	err := c.POST("account/settings", params, settings)
-	return settings, err
+	resp, err := c.POST("account/settings", params, settings)
+	return settings, resp, err
 }
 
-func (c *Client) VerifyCredentials(params *Values) (*User, error) {
+func (c *Client) VerifyCredentials(params *Values) (*User, *Response, error) {
 	user := new(User)
-	err := c.GET("account/verify_credentials", params, user)
-	return user, err
+	resp, err := c.GET("account/verify_credentials", params, user)
+	return user, resp, err
 }
