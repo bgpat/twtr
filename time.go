@@ -1,6 +1,7 @@
 package twtr
 
 import (
+	"strconv"
 	"time"
 )
 
@@ -16,8 +17,23 @@ type TimeZone struct {
 
 var layout = `"` + time.RubyDate + `"`
 
+func (t *Time) ParseUnixTime(s string) error {
+	i, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return err
+	}
+	t.Time = time.Unix(i, 0)
+	return nil
+}
+
 func (t *Time) UnmarshalJSON(b []byte) (err error) {
-	t.Time, err = time.Parse(layout, string(b))
+	for _, c := range b {
+		if c < '0' || '9' < c {
+			t.Time, err = time.Parse(layout, string(b))
+			return
+		}
+	}
+	err = t.ParseUnixTime(string(b))
 	return
 }
 
