@@ -1,0 +1,7 @@
+language: go
+before_install:
+  - go get github.com/dustin/go-jsonpointer
+  - go get github.com/dustin/gojson
+  - go get github.com/garyburd/go-oauth
+script:
+  - go test -v
