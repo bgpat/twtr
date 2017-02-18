@@ -43,3 +43,11 @@ func (c *Client) VerifyCredentials(params *Params) (*User, *Response, error) {
 	resp, err := c.GET("account/verify_credentials", params, user)
 	return user, resp, err
 }
+
+// UpdateProfile sets values that users are able to set under the "Account" tab of their settings page.
+// https://dev.twitter.com/rest/reference/post/account/update_profile
+func (c *Client) UpdateProfile(params *Params) (*User, *Response, error) {
+	user := new(User)
+	resp, err := c.POST("account/update_profile", params, user)
+	return user, resp, err
+}
