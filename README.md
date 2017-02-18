@@ -14,7 +14,7 @@ token := twtr.NewCredentials(accessToken, accessSecret)
 client := twtr.NewClient(consumer, token)
 
 // account/verify_credentials
-user, err := client.VerifyCredentials(nil)
+user, resp, err := client.VerifyCredentials(nil)
 ```
 
 ### Get OAuth Token
@@ -30,6 +30,10 @@ user, err := client.VerifyCredentials(nil)
 	fmt.Scan(&verifier)
 	client.GetAccessToken(verifier)
 
-	user, _ := client.VerifyCredentials(nil)
-	fmt.Println(user)
+	user, _, err := client.VerifyCredentials(nil)
+	if err != nil {
+		fmt.Println("error:", err)
+		return
+	}
+	fmt.Println("user:", user)
 ```
