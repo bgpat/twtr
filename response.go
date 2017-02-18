@@ -13,7 +13,8 @@ type Response struct {
 
 func (r *Response) ParseResponse(resp *http.Response) error {
 	r.Response = resp
-	return r.parseLimit()
+	r.parseLimit()
+	return nil
 }
 
 func (r *Response) parseLimit() error {
