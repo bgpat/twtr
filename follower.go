@@ -1,7 +1,7 @@
 package twtr
 
-func (c *Client) GetFollowerIDs(params *Values) (*UserIDs, error) {
+func (c *Client) GetFollowerIDs(params *Values) (*UserIDs, *Response, error) {
 	ids := new(UserIDs)
-	err := c.GET("followers/ids", params, &ids)
-	return ids, err
+	resp, err := c.GET("followers/ids", params, &ids)
+	return ids, resp, err
 }
