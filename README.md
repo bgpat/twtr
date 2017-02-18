@@ -1,5 +1,7 @@
 # twtr
 
+[![Build Status](https://travis-ci.org/bgpat/twtr.svg?branch=master)](https://travis-ci.org/bgpat/twtr)
+
 ## Installation
 
 Install and update with `go get github.com/bgpat/twtr`
