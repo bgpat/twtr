@@ -4,4 +4,4 @@ before_install:
   - go get github.com/dustin/gojson
   - go get github.com/garyburd/go-oauth/oauth
 script:
-  - go test -v
+  - go test
