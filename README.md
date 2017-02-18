@@ -1,6 +1,8 @@
 # twtr
 
 [![Build Status](https://travis-ci.org/bgpat/twtr.svg?branch=master)](https://travis-ci.org/bgpat/twtr)
+[![GoDoc](https://godoc.org/github.com/bgpat/twtr?status.svg)](http://godoc.org/github.com/bgpat/twtr)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 ## Installation
 
