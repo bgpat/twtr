@@ -50,6 +50,11 @@ type UserIDs struct {
 	IDs []int64 `json:"ids"`
 }
 
+type UserList struct {
+	Cursor
+	Users []User `json:"users"`
+}
+
 func (c *Client) GetUser(params *Params) (*User, *Response, error) {
 	user := new(User)
 	resp, err := c.GET("users/show", params, user)
