@@ -4,8 +4,8 @@ import (
 	"testing"
 )
 
-func TestGetBlockUserIDs(t *testing.T) {
-	ids, resp, err := client.GetBlockUserIDs(nil)
+func TestGetBlockIDs(t *testing.T) {
+	ids, resp, err := client.GetBlockIDs(nil)
 	if err != nil {
 		t.Errorf("Failed blocks/ids: %v", err)
 	} else if ids == nil {
