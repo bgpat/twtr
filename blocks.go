@@ -8,29 +8,29 @@ func (c *Client) GetBlockUserIDs(params *Params) (*UserIDs, *Response, error) {
 	return ids, resp, err
 }
 
-// GetBlockUserList returns a collection of user objects that the authenticating user is blocking.
+// GetBlockList returns a collection of user objects that the authenticating user is blocking.
 // https://dev.twitter.com/rest/reference/get/blocks/list
-func (c *Client) GetBlockUserList(params *Params) ([]User, *Response, error) {
+func (c *Client) GetBlockList(params *Params) ([]User, *Response, error) {
 	var users []User
 	resp, err := c.GET("blocks/list", params, &users)
 	return users, resp, err
 }
 
-// BlockUser blocks the specified user from following the authenticating user.
+// Block blocks the specified user from following the authenticating user.
 // In addition the blocked user will not show in the authenticating users mentions or timeline (unless retweeted by another user).
 // If a follow or friend relationship exists it is destroyed.
 // https://dev.twitter.com/rest/reference/post/blocks/create
-func (c *Client) BlockUser(params *Params) (*User, *Response, error) {
+func (c *Client) Block(params *Params) (*User, *Response, error) {
 	user := new(User)
 	resp, err := c.POST("blocks/create", params, user)
 	return user, resp, err
 }
 
-// UnblockUser un-blocks the user specified in the ID parameter for the authenticating user.
+// Unblock un-blocks the user specified in the ID parameter for the authenticating user.
 // Returns the un-blocked user in the requested format when successful.
 // If relationships existed before the block was instated, they will not be restored.
 // https://dev.twitter.com/rest/reference/post/blocks/destroy
-func (c *Client) UnblockUser(params *Params) (*User, *Response, error) {
+func (c *Client) Unblock(params *Params) (*User, *Response, error) {
 	user := new(User)
 	resp, err := c.POST("blocks/destroy", params, user)
 	return user, resp, err
