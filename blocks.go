@@ -10,10 +10,10 @@ func (c *Client) GetBlockIDs(params *Params) (*UserIDs, *Response, error) {
 
 // GetBlockList returns a collection of user objects that the authenticating user is blocking.
 // https://dev.twitter.com/rest/reference/get/blocks/list
-func (c *Client) GetBlockList(params *Params) ([]User, *Response, error) {
-	var users []User
-	resp, err := c.GET("blocks/list", params, &users)
-	return users, resp, err
+func (c *Client) GetBlockList(params *Params) (*UserList, *Response, error) {
+	list := new(UserList)
+	resp, err := c.GET("blocks/list", params, list)
+	return list, resp, err
 }
 
 // Block blocks the specified user from following the authenticating user.
