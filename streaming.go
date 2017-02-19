@@ -86,7 +86,7 @@ type StreamingUserWithheldEvent struct {
 type StreamingWithheldObject struct {
 	ID                  int64    `json:"id"`
 	UserID              int64    `json:"user_id"`
-	WithheldInCountries []string `json:"withheld_in_countires"`
+	WithheldInCountries []string `json:"withheld_in_countries"`
 }
 
 type StreamingDisconnectEvent struct {
