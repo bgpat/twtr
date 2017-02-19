@@ -1,8 +1,8 @@
 package twtr
 
-// GetBlockUserIDs returns an array of numeric user ids the authenticating user is blocking.
+// GetBlockIDs returns an array of numeric user ids the authenticating user is blocking.
 // https://dev.twitter.com/rest/reference/get/blocks/ids
-func (c *Client) GetBlockUserIDs(params *Params) (*UserIDs, *Response, error) {
+func (c *Client) GetBlockIDs(params *Params) (*UserIDs, *Response, error) {
 	ids := new(UserIDs)
 	resp, err := c.GET("blocks/ids", params, ids)
 	return ids, resp, err
