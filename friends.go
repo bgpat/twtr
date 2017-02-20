@@ -15,3 +15,17 @@ func (c *Client) GetFriendList(params *Params) (*UserList, *Response, error) {
 	resp, err := c.GET("friends/list", params, list)
 	return list, resp, err
 }
+
+// GetFriendFollowingIDs returns a cursored collection of common friends' user ID.
+func (c *Client) GetFriendFollowingIDs(params *Params) (*UserIDs, *Response, error) {
+	ids := new(UserIDs)
+	resp, err := c.GET("friends/following/ids", params, ids)
+	return ids, resp, err
+}
+
+// GetFriendFollowingList returns a cursored collection of common friends' user object.
+func (c *Client) GetFriendFollowingList(params *Params) (*UserList, *Response, error) {
+	list := new(UserList)
+	resp, err := c.GET("friends/following/list", params, list)
+	return list, resp, err
+}
