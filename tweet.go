@@ -45,3 +45,9 @@ type Coordinates struct {
 	Coordinates [2]float64 `json:"coordinates"`
 	Type        string     `json:"type"`
 }
+
+func (c *Client) UpdateTweet(params *Params) (*Tweet, *Response, error) {
+	tweet := new(Tweet)
+	resp, err := c.POST("statuses/update", params, tweet)
+	return tweet, resp, err
+}
