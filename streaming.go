@@ -44,7 +44,7 @@ type StreamingDirectMessageEvent struct {
 type StreamingDeleteTweetEvent struct {
 	Delete struct {
 		Status      StreamingDeletedObject `json:"status"`
-		TimestampMS int64                  `json:"timestamp_ms"`
+		TimestampMS string                 `json:"timestamp_ms"`
 	} `json:"delete"`
 }
 
