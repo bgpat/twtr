@@ -2,7 +2,7 @@ package twtr
 
 type Tweet struct {
 	ID
-	Contributors         []Contributor          `json:"contributors"`
+	Contributors         []int64                `json:"contributors"`
 	Coordinates          *Coordinates           `json:"coordinates"`
 	CreatedAt            Time                   `json:"created_at"`
 	CurrentUserRetweet   ID                     `json:"current_user_retweet"`
@@ -34,11 +34,6 @@ type Tweet struct {
 	WithheldCopyright    bool                   `json:"withheld_copyright"`
 	WithheldInCountries  []string               `json:"withheld_in_countries"`
 	WithheldScope        string                 `json:"withheld_scope"`
-}
-
-type Contributor struct {
-	ID
-	ScreenName string `json:"screen_name"`
 }
 
 type Coordinates struct {
